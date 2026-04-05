@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: citibike_raw
+    database: citibike-analytics-492418
+    schema: citibike_raw
+    description: Raw CitiBike GBFS data
+
+    tables:
+      - name: raw_station_information
+        description: Static station metadata
+
+      - name: raw_station_status
+        description: Real-time station availability
+
+      - name: raw_system_regions
+        description: CitiBike system regions
