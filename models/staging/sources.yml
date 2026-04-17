@@ -8,10 +8,40 @@ sources:
 
     tables:
       - name: raw_station_information
-        description: Static station metadata
+        description: Static station metadata from GBFS station_information endpoint
 
       - name: raw_station_status
-        description: Real-time station availability
+        description: Real-time station availability snapshots from GBFS station_status endpoint
+        columns:
+          - name: station_id
+            description: Station identifier
+          - name: num_bikes_available
+            description: Number of bikes available for rental
+          - name: num_ebikes_available
+            description: Number of e-bikes available for rental
+          - name: num_bikes_disabled
+            description: Number of bikes that are disabled
+          - name: num_docks_available
+            description: Number of docks available for returns
+          - name: num_docks_disabled
+            description: Number of docks that are disabled
+          - name: is_installed
+            description: Whether the station is installed
+          - name: is_renting
+            description: Whether the station is accepting bike rentals
+          - name: is_returning
+            description: Whether the station is accepting bike returns
+          - name: last_reported
+            description: Unix timestamp of the last status report from the station
+          - name: ingested_at
+            description: Timestamp when this record was ingested into BigQuery
 
       - name: raw_system_regions
-        description: CitiBike system regions
+        description: CitiBike system region definitions from GBFS system_regions endpoint
+        columns:
+          - name: region_id
+            description: Region identifier
+          - name: name
+            description: Human-readable region name
+          - name: ingested_at
+            description: Timestamp when this record was ingested into BigQuery
