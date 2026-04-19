@@ -15,6 +15,8 @@ ENDPOINTS = {
     "station_information": "https://gbfs.citibikenyc.com/gbfs/en/station_information.json",
     "station_status":      "https://gbfs.citibikenyc.com/gbfs/en/station_status.json",
     "system_regions":      "https://gbfs.citibikenyc.com/gbfs/en/system_regions.json",
+    "free_bike_status":    "https://gbfs.citibikenyc.com/gbfs/en/free_bike_status.json",
+    "system_pricing_plans":"https://gbfs.citibikenyc.com/gbfs/en/system_pricing_plans.json",
 }
 
 # ── BigQuery client ───────────────────────────────────────────────
@@ -124,9 +126,72 @@ def ingest_system_regions() -> None:
     ]
     load_to_bq("raw_system_regions", rows)
 
+FREE_BIKE_SCHEMA = [
+    bigquery.SchemaField("bike_id",         "STRING"),
+    bigquery.SchemaField("lat",             "FLOAT64"),
+    bigquery.SchemaField("lon",             "FLOAT64"),
+    bigquery.SchemaField("is_reserved",     "BOOL"),
+    bigquery.SchemaField("is_disabled",     "BOOL"),
+    bigquery.SchemaField("vehicle_type_id", "STRING"),
+    bigquery.SchemaField("ingested_at",     "STRING"),
+]
+
+def ingest_free_bike_status() -> None:
+    data        = fetch(ENDPOINTS["free_bike_status"])
+    bikes       = data["data"]["bikes"]
+    ingested_at = datetime.now(timezone.utc).isoformat()
+
+    # Always ensure table exists with correct schema
+    full_table = f"{PROJECT_ID}.{DATASET}.raw_free_bike_status"
+    table = bigquery.Table(full_table, schema=FREE_BIKE_SCHEMA)
+    try:
+        client.create_table(table)
+        print("  + Created table raw_free_bike_status")
+    except Exception:
+        pass
+
+    if not bikes:
+        print("  ⚠ free_bike_status: no dockless bikes in field right now — table exists, no rows loaded")
+        return
+
+    rows = [
+        {
+            "bike_id":          b.get("bike_id"),
+            "lat":              b.get("lat"),
+            "lon":              b.get("lon"),
+            "is_reserved":      b.get("is_reserved"),
+            "is_disabled":      b.get("is_disabled"),
+            "vehicle_type_id":  b.get("vehicle_type_id"),
+            "ingested_at":      ingested_at,
+        }
+        for b in bikes
+    ]
+    load_to_bq("raw_free_bike_status", rows)
+
+def ingest_system_pricing_plans() -> None:
+    data        = fetch(ENDPOINTS["system_pricing_plans"])
+    plans       = data["data"]["plans"]
+    ingested_at = datetime.now(timezone.utc).isoformat()
+
+    rows = [
+        {
+            "plan_id":      p.get("plan_id"),
+            "name":         p.get("name"),
+            "currency":     p.get("currency"),
+            "price":        str(p.get("price", "")),
+            "is_taxable":   p.get("is_taxable"),
+            "description":  p.get("description"),
+            "ingested_at":  ingested_at,
+        }
+        for p in plans
+    ]
+    load_to_bq("raw_pricing_plans", rows)
+
 if __name__ == "__main__":
     print(f"\n🚲 CitiBike ingestion — {datetime.now(timezone.utc).isoformat()}\n")
     ingest_station_information()
     ingest_station_status()
     ingest_system_regions()
+    ingest_free_bike_status()
+    ingest_system_pricing_plans()
     print("\n✅ Done\n")

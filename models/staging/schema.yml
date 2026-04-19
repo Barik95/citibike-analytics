@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: stg_citibike__stations
+    description: Cleaned static station master data. One row per station.
+    columns:
+      - name: station_id
+        description: Unique station identifier
+        data_tests:
+          - unique
+          - not_null
+      - name: station_name
+        data_tests:
+          - not_null
+      - name: latitude
+        data_tests:
+          - not_null
+      - name: longitude
+        data_tests:
+          - not_null
+      - name: total_docks
+        data_tests:
+          - not_null
+      - name: ingested_at
+        data_tests:
+          - not_null
+
+  - name: stg_citibike__station_status
+    description: Real-time station availability snapshots. One row per station per ingestion run.
+    columns:
+      - name: station_id
+        description: Unique station identifier
+        data_tests:
+          - not_null
+      - name: num_bikes_available
+        data_tests:
+          - not_null
+      - name: num_docks_available
+        data_tests:
+          - not_null
+      - name: last_reported_at
+        data_tests:
+          - not_null
+      - name: ingested_at
+        data_tests:
+          - not_null
+
+  - name: stg_citibike__regions
+    description: CitiBike geographic regions. One row per region.
+    columns:
+      - name: region_id
+        description: Unique region identifier
+        data_tests:
+          - unique
+          - not_null
+      - name: region_name
+        data_tests:
+          - not_null
+      - name: ingested_at
+        data_tests:
+          - not_null
+
+  - name: stg_citibike__bikes
+    description: Dockless bikes currently deployed in the field. One row per bike per ingestion run.
+    columns:
+      - name: bike_id
+        description: Unique bike identifier
+        data_tests:
+          - not_null
+      - name: ingested_at
+        data_tests:
+          - not_null
+
+  - name: stg_citibike__pricing_plans
+    description: CitiBike membership and pricing tiers. One row per plan per ingestion run.
+    columns:
+      - name: plan_id
+        description: Unique pricing plan identifier
+        data_tests:
+          - not_null
+      - name: plan_name
+        data_tests:
+          - not_null
+      - name: price
+        data_tests:
+          - not_null
+      - name: ingested_at
+        data_tests:
+          - not_null

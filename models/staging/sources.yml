@@ -45,3 +45,39 @@ sources:
             description: Human-readable region name
           - name: ingested_at
             description: Timestamp when this record was ingested into BigQuery
+
+      - name: raw_free_bike_status
+        description: Dockless bikes currently deployed in the field from GBFS free_bike_status endpoint
+        columns:
+          - name: bike_id
+            description: Unique bike identifier
+          - name: lat
+            description: Current latitude of the bike
+          - name: lon
+            description: Current longitude of the bike
+          - name: is_reserved
+            description: Whether the bike is currently reserved
+          - name: is_disabled
+            description: Whether the bike is currently disabled
+          - name: vehicle_type_id
+            description: Vehicle type identifier (e.g. classic, ebike)
+          - name: ingested_at
+            description: Timestamp when this record was ingested into BigQuery
+
+      - name: raw_pricing_plans
+        description: CitiBike membership and pricing tiers from GBFS system_pricing_plans endpoint
+        columns:
+          - name: plan_id
+            description: Unique pricing plan identifier
+          - name: name
+            description: Human-readable plan name
+          - name: currency
+            description: ISO 4217 currency code
+          - name: price
+            description: Plan price
+          - name: is_taxable
+            description: Whether the plan is subject to tax
+          - name: description
+            description: Full plan description including per-minute rates
+          - name: ingested_at
+            description: Timestamp when this record was ingested into BigQuery
