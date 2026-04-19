@@ -1,0 +1,7 @@
+station_id,intervention_date,intervention_type,notes
+66dd4bf7-0aca-11e7-82f6-3863bb44ef7c,2026-04-10,capacity_increase,Added 20 docks to address chronic understocking near Central Park
+66dd5407-0aca-11e7-82f6-3863bb44ef7c,2026-04-10,rebalancing,Manual bike restock after multiple empty-station complaints on Riverside Dr
+398ebef6-dcc2-4305-b1d2-47efafdaa85c,2026-04-11,rebalancing,Priority restock - Sterling Pl flagged as critically understocked
+5645b05e-85be-460d-8506-cacd20bff233,2026-04-12,maintenance,Repaired 4 disabled docks and 3 disabled bikes at 36 St & 3 Ave
+1905394575114219798,2026-04-12,reactivation,Station brought back online after 2-week outage for infrastructure repair
+fbee1143-e93f-418d-b6bc-8fde4a9a8746,2026-04-13,rebalancing,Rebalanced E Houston St after sustained low availability during peak hours

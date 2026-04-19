@@ -1,0 +1,6 @@
+tier_name,min_docks,max_docks,description
+micro,1,9,Very small station typically in low-density areas
+small,10,19,Standard neighbourhood station
+medium,20,34,Busy neighbourhood or transit hub station
+large,35,54,High-traffic station near major transit or attractions
+hub,55,999,Major hub station at transit terminals or high-density destinations

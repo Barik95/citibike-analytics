@@ -1,0 +1,4 @@
+vehicle_type_id,bike_type,is_electric,typical_range_miles,description
+classic,Classic Bike,false,,Standard pedal bike available at all stations
+electric_bike,Electric Bike,true,30,Pedal-assist e-bike with motor support up to 20mph
+cargo_bike,Cargo Bike,false,,Larger bike designed for carrying loads
