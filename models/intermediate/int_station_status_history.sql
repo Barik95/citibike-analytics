@@ -48,7 +48,7 @@ joined as (
         case
             when st.total_docks = 0 then null
             else round(
-                safe_divide(ss.num_bikes_available, st.total_docks),
+                least(1.0, safe_divide(ss.num_bikes_available, st.total_docks)),
                 4
             )
         end as bike_availability_rate,
@@ -56,7 +56,7 @@ joined as (
         case
             when st.total_docks = 0 then null
             else round(
-                safe_divide(ss.num_docks_available, st.total_docks),
+                least(1.0, safe_divide(ss.num_docks_available, st.total_docks)),
                 4
             )
         end as dock_availability_rate

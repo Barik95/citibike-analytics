@@ -1,21 +1,15 @@
 {{
     config(
-        materialized='incremental',
-        unique_key=['station_id', 'ingested_at'],
-        incremental_strategy='merge'
+        materialized='table'
     )
 }}
+{# Switch to incremental + unique_key + incremental_strategy='merge' once billing is enabled #}
 
 -- Every status snapshot per station — the main fact table.
--- Incremental: only new snapshots are merged on each run.
 
 with history as (
 
     select * from {{ ref('int_station_status_history') }}
-
-    {% if is_incremental() %}
-        where ingested_at > (select max(ingested_at) from {{ this }})
-    {% endif %}
 
 ),
 
