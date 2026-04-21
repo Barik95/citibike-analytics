@@ -26,5 +26,6 @@ select
     ingested_at
 
 from {{ ref('int_stations_enriched') }}
+qualify row_number() over (partition by station_id order by ingested_at desc) = 1
 
 {% endsnapshot %}
